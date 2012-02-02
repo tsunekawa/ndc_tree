@@ -19,7 +19,7 @@ Jeweler::Tasks.new do |gem|
   gem.homepage = "http://github.com/tsunekawa/ndc_tree"
   gem.license = "MIT"
   gem.summary = %Q{NdcTree is a library outputs a list of NDC(Nippon Decimal Classification) as a tree-structured data}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.description = %Q{NdcTree is a library outputs a list of NDC(Nippon Decimal Classification) as a tree-structured data.}
   gem.email = "tsunekaw@slis.tsukuba.ac.jp"
   gem.authors = ["Mao Tsunekawa"]
   # dependencies defined in Gemfile

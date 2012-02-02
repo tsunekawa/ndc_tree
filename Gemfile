@@ -1,3 +1,10 @@
-source "http://rubygems.org"
-# Specify your gem's dependencies in ruby-graphviz.gemspec
-gemspec
+source :rubygems
+
+gem 'rubytree', '>=0.8.1'
+gem 'ruby-graphviz'
+
+group :development do
+  gem 'jeweler'
+  gem 'rake'
+  gem 'rspec'
+end
