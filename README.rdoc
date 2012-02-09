@@ -1,16 +1,68 @@
 = ndc_tree
 
-Description goes here.
+ndc_treeはNDC(日本十進分類法)のコードを木構造データとして集計して視覚化するツールです。
 
-== Contributing to ndc_tree
+ndc_tree is a ruby gem aggregating and visualizing a list of NDC(Nippon Decimal Classification).
+
+== Requirements
+
+- GraphViz
+- rubytree
+- ruby-graphviz
+
+== How to use
+
+NdcTreeを作成するには、NdcTree << メソッドでNDCコードのリストを入力します。
+
+If you want to generate NDC Tree, apply NdcTree << and input a list of NDC.
+
+  require 'ndc_tree'
+
+  tree = NdcTree << %w{
+    913.6
+    411
+    007
+    913.6
+    914
+    914.6
+    913.6
+    913.6
+    913.6
+    913.6
+  }
+
+テキスト形式でNDCツリーを表示することができます。
+
+With print_tree method, you can show text-based NDC Tree.
  
-* Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet.
-* Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it.
-* Fork the project.
-* Start a feature/bugfix branch.
-* Commit and push until you are happy with your contribution.
-* Make sure to add tests for it. This is important so I don't break it in a future version unintentionally.
-* Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.
+  tree.print_tree
+
+NDCツリーはGraphVizを使って画像形式で出力することができます。
+
+ndc_tree can generate a image of NDC Tree with GraphViz.
+
+  tree.print_image(:gif=>"output.gif")
+
+もし画像のレイアウトを変更したい場合は、print_imageを実行する際にブロックを与えてください。
+
+If you want to change design of tree image, use block. 
+
+  tree.print_image(:gif=>"output.gif") do |g|
+    g.node[:style] = "filled"
+    g.node[:shape] = "note"
+    g.node[:color] = "black"
+    g.node[:fontcolor] = "white"
+  end
+
+上のコード中の g は、GraphVizクラスのインスタンスです。
+
+In a above code, g is a instance of GraphViz object.
+
+== ライセンス ( Licence )
+
+MITライセンスです。
+
+This is MIT Licence.
 
 == Copyright
 
