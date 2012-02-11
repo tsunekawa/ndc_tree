@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.email = "tsunekaw@slis.tsukuba.ac.jp"
   s.extra_rdoc_files = [
     "LICENSE.txt",
-    "README.rdoc"
+    "README.rdoc",
   ]
   s.files = [
     "Gemfile.lock",

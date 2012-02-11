@@ -1,5 +1,7 @@
 = ndc_tree
 
+link://output.gif
+
 ndc_treeはNDC(日本十進分類法)のコードを木構造データとして集計して視覚化するツールです。
 
 ndc_tree is a ruby gem aggregating and visualizing a list of NDC(Nippon Decimal Classification).
