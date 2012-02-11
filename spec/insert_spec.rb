@@ -11,9 +11,20 @@ describe "NdcTree <<" do
     should be_instance_of Array
     should have(5).items
   }
+  its(:weight) { should >= 1 }
   its(:children) {
-    should have(1).items
-    subject.first.name.should  == "9**"
+    should have(1).items 
+
+    corrects = [ "9**", "91*", "913", "913.6" ]
+    corrects.inject(subject.first) do |node, correct|
+      node.name.should  == correct
+      if node.is_leaf? then
+	next node
+      else
+        node.children.should have(1).items 
+        next node.children.first
+      end
+    end
   }
 
 end
