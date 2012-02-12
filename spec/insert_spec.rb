@@ -26,5 +26,9 @@ describe "NdcTree <<" do
       end
     end
   }
+  its(:content) {
+    should be_instance_of Hash
+    should have(0).items
+  }
 
 end

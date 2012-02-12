@@ -3,15 +3,41 @@
 class NdcTree::Node < Tree::TreeNode
   class InputNdcError < Exception;end
 
+  attr_accessor :weight
+
+  ##
+  # converts this tree to array of nodes
+
+  alias_method :nodes, :to_a
+
+  ##
+  # Returns:: a instance object of NdcTree::Node
   def initialize(name="root",content={})
-    content[:weight]=1
+    @weight=1
     super(name, content)
   end
 
-  def nodes
-    self.to_a
+  ##
+  #
+  # Returns:: a node has name same as a given key
+  
+  def [](key)
+    nodes.find {|node| node.name==key }
   end
 
+  ##
+  # this method searches nodes have name matching a given expression
+  #
+  # Returns :: a list of NdcTree::Node objects.
+ 
+  def search(exp)
+    nodes.find_all {|node| node.name =~ exp }
+  end
+
+  ##
+  # this method sorts nodes at each layers by ndc codes ( it's bang method )
+  # Returns :: a instance object of NdcTree::Node
+  
   def sort!
     unless self.is_leaf? then
       @children.sort!.map{|node| node.sort!}
@@ -19,18 +45,21 @@ class NdcTree::Node < Tree::TreeNode
     self
   end
 
+  ##
+  # sorts nodes at each layers by ndc codes ( it is not bang method )
+  #
+  # Returns :: a instance object of NdcTree::Node
+ 
   def sort
     node = self.dup
     node.sort!
   end
 
-  def weight
-    self.content[:weight]
-  end
-
-  def weight=(value)
-    self.content[:weight]=value
-  end
+  ##
+  # This method inserts a node has name same as given value as a child node.
+  # If given value is instance of Array, this method repeats inserting each element of value.
+  #
+  # Returns :: self instance
 
   def <<(value)
     case value.class.name.to_sym
@@ -46,7 +75,50 @@ class NdcTree::Node < Tree::TreeNode
     self
   end
 
-  def add_ndc (str)
+  ##
+  # This method loads dump of a tree formatted marshal object.
+  #
+  # Return :: self instance
+  
+  def marshal_load(dumped_tree_array)
+    nodes = { }
+    dumped_tree_array.each do |node_hash|
+      name        = node_hash[:name]
+      parent_name = node_hash[:parent]
+      content     = Marshal.load(node_hash[:content])
+
+      if parent_name then
+	nodes[name] = current_node = self.class.new(name, content)
+	nodes[parent_name].add current_node
+      else
+	# This is the root node, hence initialize self.
+	initialize(name, content)
+
+	nodes[name] = self    # Add self to the list of nodes
+      end
+    end
+  end
+
+  # This method output a image file with GraphViz.
+  #
+  # Returns :: true
+  # Raise :: when given file path is wrong
+  def print_image(opts={:gif=>"ndc_tree.gif"},&block)
+    sort!
+
+    g = GraphViz::new("G")
+    set_default_style
+    to_graphviz(g,opts)
+
+    yield g if block_given?
+
+    g.output(opts)
+    true
+  end
+
+  protected
+
+  def add_ndc (str) #nodoc#
     unless /^[0-9]{3}(\.[0-9]+){0,1}$/ =~ str
       raise InputNdcError, "入力された文字列(#{str})はNDCコードではありません" 
     end
@@ -76,39 +148,6 @@ class NdcTree::Node < Tree::TreeNode
 
     self
   end
-
-  def marshal_load(dumped_tree_array)
-    nodes = { }
-    dumped_tree_array.each do |node_hash|
-      name        = node_hash[:name]
-      parent_name = node_hash[:parent]
-      content     = Marshal.load(node_hash[:content])
-
-      if parent_name then
-	nodes[name] = current_node = self.class.new(name, content)
-	nodes[parent_name].add current_node
-      else
-	# This is the root node, hence initialize self.
-	initialize(name, content)
-
-	nodes[name] = self    # Add self to the list of nodes
-      end
-    end
-  end
-
-  def print_image(opts={:gif=>"ndc_tree.gif"},&block)
-    sort!
-
-    g = GraphViz::new("G")
-    set_default_style
-    to_graphviz(g,opts)
-
-    yield g if block_given?
-
-    g.output(opts)
-  end
-
-  protected
 
   def set_default_style
     g = GraphViz::new("G")

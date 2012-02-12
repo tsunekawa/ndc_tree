@@ -9,8 +9,9 @@ module NdcTree
   extend self
   VERSION = File.read(File.join(File.dirname(__FILE__),%w{ .. VERSION}))
 
-  def <<(value)
-    Node.new << value
+  # 
+  def <<(ndcs)
+    Node.new << ndcs
   end
 
   autoload :Node, "ndc_tree/node.rb"
