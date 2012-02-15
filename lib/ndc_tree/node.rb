@@ -112,8 +112,8 @@ class NdcTree::Node < Tree::TreeNode
 
     yield g if block_given?
 
-    g.output(opts)
-    true
+    result = g.output(opts)
+    result.nil? ? true : result
   end
 
   protected

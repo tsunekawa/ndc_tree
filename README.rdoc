@@ -68,6 +68,14 @@ MITライセンスです。
 
 This is MIT Licence.
 
+== 履歴 ( History )
+
+* February 1st, 2012: First Public release 0.0.0
+* February 11th, 2012: Second Public release 0.1.0
+* February 16th, 2012: Third Public release 0.1.1
+  * update NdcTree::Node#print_image method
+    * supported a function returns Binary String
+
 == Copyright
 
 Copyright (c) 2012 Mao Tsunekawa. See LICENSE.txt for
