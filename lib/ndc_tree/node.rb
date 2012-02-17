@@ -62,11 +62,12 @@ class NdcTree::Node < Tree::TreeNode
   # Returns :: self instance
 
   def <<(value)
+
     case value.class.name.to_sym
       when :String
 	add_ndc(value)
       when :Array
-	value.flatten.each{|v| add_ndc(v) }
+	value.flatten.each{|v| self << v }
       when :Node
 	super
       else
@@ -119,8 +120,12 @@ class NdcTree::Node < Tree::TreeNode
   protected
 
   def add_ndc (str) #nodoc#
+    unless self.is_root?
+      raise InputNdcError, "Adding ndc is enabled only root node"
+    end
+
     unless /^[0-9]{3}(\.[0-9]+){0,1}$/ =~ str
-      raise InputNdcError, "入力された文字列(#{str})はNDCコードではありません" 
+      raise InputNdcError, "Argument (#{str}) is not a NDC code" 
     end
 
     labels=Array.new

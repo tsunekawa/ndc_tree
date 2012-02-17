@@ -31,4 +31,8 @@ describe "NdcTree <<" do
     should have(0).items
   }
 
+  it "raise InputNdcError when inserting ndc code into child node." do
+    child = subject.children.first
+    lambda { child << "008" }.should raise_error(NdcTree::Node::InputNdcError,"Adding ndc is enabled only root node")
+  end
 end
