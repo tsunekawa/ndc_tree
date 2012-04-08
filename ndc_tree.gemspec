@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Mao Tsunekawa"]
-  s.date = "2012-02-16"
+  s.date = "2012-02-12"
   s.description = "NdcTree is a library outputs a list of NDC(Nippon Decimal Classification) as a tree-structured data."
   s.email = "tsunekaw@slis.tsukuba.ac.jp"
   s.extra_rdoc_files = [
@@ -29,7 +29,10 @@ Gem::Specification.new do |s|
     "ndc_tree.gemspec",
     "spec/insert_spec.rb",
     "spec/ndc_tree_spec.rb",
+<<<<<<< HEAD
     "spec/output_spec.rb",
+=======
+>>>>>>> origin/master
     "spec/search_spec.rb",
     "spec/spec_helper.rb"
   ]
